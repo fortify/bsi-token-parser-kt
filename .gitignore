@@ -64,3 +64,4 @@ $RECYCLE.BIN/
 
 .idea
 .gradle
+build/
