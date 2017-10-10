@@ -19,6 +19,22 @@ object BsiTokenParserSpec : Spek({
             it("should have a Tenant Code of 'Tenant1'") {
                 assertEquals("Tenant1", token.tenantCode)
             }
+
+            it("should have a Tenant ID of '1'") {
+                assertEquals(1, token.tenantId)
+            }
+
+            it("should have a Tech Stack of 'ABAP'") {
+                assertEquals("ABAP", token.technologyStack)
+            }
+
+            it("should have a Project Version ID of '332'") {
+                assertEquals(332, token.projectVersionId)
+            }
+
+            it("should have an Assessment Type ID of '7'") {
+                assertEquals(7, token.assessmentTypeId)
+            }
         }
     }
 })
