@@ -8,5 +8,5 @@ class BsiToken {
     var assessmentTypeId: Int = 0
     var technologyStack: String? = null
     var languageLevel = ""
-    var endpoint: String? = null
+    var apiUri: String = "https://api.ams.fortify.com"
 }
