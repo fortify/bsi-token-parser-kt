@@ -33,7 +33,7 @@ class BsiTokenParser {
                 "tid" -> token.tenantId = Integer.parseInt(param.value)
                 "tc" -> token.tenantCode = param.value
                 "pv" -> token.projectVersionId = Integer.parseInt(param.value)
-                "ts" -> token.technologyStack = URLEncoder.encode(param.value, "UTF-8")
+                "ts" -> token.technologyStack = param.value
                 "ll" -> token.languageLevel = param.value
                 "astid" -> token.assessmentTypeId = Integer.parseInt(param.value)
                 "payloadType" -> token.payloadType = param.value
