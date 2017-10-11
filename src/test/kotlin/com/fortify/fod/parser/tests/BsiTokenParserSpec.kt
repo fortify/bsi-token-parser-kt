@@ -67,7 +67,7 @@ object BsiTokenParserSpec : Spek({
         on("parsing $bsiUrl3") {
             val token = parser.parse(bsiUrl3)
 
-            it ("should have a Tech Stack of 'MBS/C/C++'") {
+            it("should have a Tech Stack of 'MBS/C/C++'") {
                 assertEquals("MBS/C/C++", token.technologyStack)
             }
         }

@@ -4,7 +4,6 @@ import org.apache.http.client.utils.URLEncodedUtils
 import java.io.UnsupportedEncodingException
 import java.net.URI
 import java.net.URISyntaxException
-import java.net.URLEncoder
 
 class BsiTokenParser {
     @Throws(URISyntaxException::class, UnsupportedEncodingException::class)
