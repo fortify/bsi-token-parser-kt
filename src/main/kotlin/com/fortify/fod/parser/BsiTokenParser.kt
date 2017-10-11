@@ -1,6 +1,5 @@
 package com.fortify.fod.parser
 
-import org.apache.http.NameValuePair
 import org.apache.http.client.utils.URLEncodedUtils
 import java.io.UnsupportedEncodingException
 import java.net.URI
@@ -13,7 +12,6 @@ class BsiTokenParser {
 
         val trimmedToken = token.trim()
 
-
         if (trimmedToken.contains("/bsi2.aspx?")) {
             val uri = URI(trimmedToken)
             return parseBsiUrl(uri)
@@ -24,9 +22,12 @@ class BsiTokenParser {
 
     @Throws(UnsupportedEncodingException::class)
     private fun parseBsiUrl(uri: URI): BsiToken {
-        val params = URLEncodedUtils.parse(uri, "UTF-8")
 
-        var token = BsiToken()
+        val params = URLEncodedUtils.parse(uri, "UTF-8")
+        val token = BsiToken()
+
+        token.apiUri = "${uri.scheme}://${uri.host}"
+
         for (param in params) {
             when (param.name) {
                 "tid" -> token.tenantId = Integer.parseInt(param.value)
@@ -39,6 +40,6 @@ class BsiTokenParser {
             }
         }
 
-        return token;
+        return token
     }
 }
