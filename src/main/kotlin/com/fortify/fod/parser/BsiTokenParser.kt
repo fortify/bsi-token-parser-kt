@@ -26,7 +26,9 @@ class BsiTokenParser {
         val params = URLEncodedUtils.parse(uri, "UTF-8")
         val token = BsiToken()
 
-        token.apiUri = "${uri.scheme}://${uri.host}"
+        if (uri.scheme != null && uri.host != null) {
+            token.apiUri = "${uri.scheme}://${uri.host}"
+        }
 
         for (param in params) {
             when (param.name) {
