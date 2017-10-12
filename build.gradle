@@ -87,14 +87,6 @@ task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputDirectory = javadocDir
 }
 
-//task javadocJar(type: Zip, dependsOn: dokkaJavadoc) {
-//    from "$buildDir/libs/javadoc"
-//    include '*'
-//    include '*/*'
-//    archiveName "BSITokenParser-${version}-javadoc.jar"
-//    destinationDir(file("$buildDir/libs/"))
-//}
-
 task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
