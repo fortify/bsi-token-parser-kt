@@ -96,6 +96,12 @@ task deleteJavadocFolder(type: Delete) {
     delete javadocDir
 }
 
-task prepareMavenDeployables(type: GradleBuild) {
-    tasks = ['build', 'generatePomFileForMavenPublication', 'javadocJar', 'deleteJavadocFolder']
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }
+
+task prepareMavenDeployables(type: GradleBuild) {
+    tasks = ['clean', 'build', 'test', 'generatePomFileForMavenPublication', 'javadocJar', 'deleteJavadocFolder', 'sourcesJar']
+}
+
