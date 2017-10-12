@@ -12,16 +12,14 @@ class BsiToken {
     var scanPreferenceId: Int = 0
     var scanPreference: String? = null
     var includeThirdParty: Boolean = false
-    var includeSonatype: Boolean = false
+/*    var includeSonatype: Boolean = false*/
     var auditPreference: String? = null
     var auditPreferenceId: Int = 0
     var includeOpenSourceAnalysis: Boolean = false
     var portalUri: String = ""
-/*
- technologyType
-technologyTypeId
-technologyVersion
-technologyVersionId
-*/
+    var technologyType: String? = null
+    var technologyTypeId: Int = 0
+    var technologyVersion: String? = null
+    var technologyVersionId: Int = 0
 
 }

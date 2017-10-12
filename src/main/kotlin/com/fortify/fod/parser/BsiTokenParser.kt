@@ -38,13 +38,13 @@ class BsiTokenParser {
                 "ll" -> token.languageLevel = param.value
                 "astid" -> token.assessmentTypeId = Integer.parseInt(param.value)
                 "payloadType" -> token.payloadType = param.value
-                
-                "au" ->  token.apiUri = param.value
-                "spid" -> token.scanPreferenceId = param.value
-                "tp" -> token.includeThirdParty = param.value
-                "st" -> token.includeSonaType = param.value
-                "apid" -> token.auditPreferenceId = param.value
-                "osa" -> token.includeOpenSourceAnalysis = param.value
+                "ap" -> token.auditPreference = param.value
+
+/*                if(token.technologyVersion != null){
+                    "ll" -> token.technologyVersion = param.value
+                }*/
+
+
             }
         }
 
