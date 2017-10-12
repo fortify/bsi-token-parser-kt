@@ -80,7 +80,30 @@ model {
     }
 }
 
-dokka {
-    outputFormat = 'javadocJar'
-    outputDirectory = "$buildDir/libs/javadoc"
+def javadocDir = "$buildDir/libs/javadoc"
+
+task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = 'javadoc'
+    outputDirectory = javadocDir
+}
+
+//task javadocJar(type: Zip, dependsOn: dokkaJavadoc) {
+//    from "$buildDir/libs/javadoc"
+//    include '*'
+//    include '*/*'
+//    archiveName "BSITokenParser-${version}-javadoc.jar"
+//    destinationDir(file("$buildDir/libs/"))
+//}
+
+task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task deleteJavadocFolder(type: Delete) {
+    delete javadocDir
+}
+
+task prepareMavenDeployables(type: GradleBuild) {
+    tasks = ['build', 'generatePomFileForMavenPublication', 'javadocJar', 'deleteJavadocFolder']
 }
