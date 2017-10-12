@@ -9,4 +9,19 @@ class BsiToken {
     var technologyStack: String? = null
     var languageLevel = ""
     var apiUri: String = "https://api.ams.fortify.com"
+    var scanPreferenceId: Int = 0
+    var scanPreference: String? = null
+    var includeThirdParty: Boolean = false
+    var includeSonatype: Boolean = false
+    var auditPreference: String? = null
+    var auditPreferenceId: Int = 0
+    var includeOpenSourceAnalysis: Boolean = false
+    var portalUri: String = ""
+/*
+ technologyType
+technologyTypeId
+technologyVersion
+technologyVersionId
+*/
+
 }
