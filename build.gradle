@@ -105,3 +105,5 @@ task prepareMavenDeployables(type: GradleBuild) {
     tasks = ['clean', 'build', 'test', 'generatePomFileForMavenPublication', 'javadocJar', 'deleteJavadocFolder', 'sourcesJar']
 }
 
+defaultTasks 'clean', 'build', 'test'
+
