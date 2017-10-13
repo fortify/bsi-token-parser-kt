@@ -12,14 +12,15 @@ class BsiToken {
     var scanPreferenceId: Int = 0
     var scanPreference: String? = null
     var includeThirdParty: Boolean = false
-/*    var includeSonatype: Boolean = false*/
-    var auditPreference: String? = null
+    var auditPreference: String? = "manual"
     var auditPreferenceId: Int = 0
     var includeOpenSourceAnalysis: Boolean = false
-    var portalUri: String = ""
+    var portalUri: String = "https://ams.fortify.com"
+
     var technologyType: String? = null
     var technologyTypeId: Int = 0
     var technologyVersion: String? = null
     var technologyVersionId: Int = 0
 
 }
+

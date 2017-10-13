@@ -15,7 +15,7 @@ class BsiTokenParser {
             val uri = URI(trimmedToken)
             return parseBsiUrl(uri)
         } else {
-            throw Exception("Not implemented")
+            return parseBsiToken(trimmedToken)
         }
     }
 
@@ -49,5 +49,17 @@ class BsiTokenParser {
         }
 
         return token
+    }
+
+    private fun parseBsiToken(codedToken: String): BsiToken {
+
+        var bsiBytes = java.util.Base64.getDecoder().decode(codedToken)
+        var decodedToken = String(bsiBytes,"UTF-8")
+
+        var token = BsiToken()
+        token.tenantId
+
+        return token
+
     }
 }
