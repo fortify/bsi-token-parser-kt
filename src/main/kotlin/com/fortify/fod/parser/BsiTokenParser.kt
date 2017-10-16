@@ -65,25 +65,26 @@ class BsiTokenParser {
 
         var token = BsiToken()
 
-        token.tenantId = json.int("tenantId")
+
+        token.tenantId = json.int("tenantId") ?: throw NullPointerException()
         token.tenantCode = json.string("tenantCode")
-        token.projectVersionId= json.int("releaseId")
-        token.payloadType = json.string("payloadType")
-        token.assessmentTypeId = json.int("assessmentTypeId")
-        token.technologyType = json.string("technologyType")
-        token.technologyTypeId = json.int("technologyTypeId")
+        token.projectVersionId = json.int("releaseId") ?: throw NullPointerException()
+        token.payloadType = json.string("payloadType") ?: throw NullPointerException()
+        token.assessmentTypeId = json.int("assessmentTypeId") ?: throw NullPointerException()
+        token.technologyType = json.string("technologyType") ?: throw NullPointerException()
+        token.technologyTypeId = json.int("technologyTypeId") ?: throw NullPointerException()
         token.technologyVersion = json.string("technologyVersion")
-        token.technologyVersionId = json.int("technologyVersionId")
+        token.technologyVersionId = json.int("technologyVersionId") ?: throw NullPointerException()
         //TODO: not in the bsi token
         token.languageLevel = json.string("languageLevel")
-        token.apiUri = json.string("apiUri")
-        token.scanPreferenceId = json.int("scanPreferenceId")
+        token.apiUri = json.string("apiUri") ?: throw NullPointerException()
+        token.scanPreferenceId = json.int("scanPreferenceId") ?: throw NullPointerException()
         token.scanPreference = json.string("scanPreference")
-        token.includeThirdParty = json.boolean("includeThirdParty")
+        token.includeThirdParty = json.boolean("includeThirdParty") ?: throw NullPointerException()
         token.auditPreference = json.string("auditPreference")
-        token.auditPreferenceId = json.int("auditPreferenceId")
-        token.includeOpenSourceAnalysis = json.boolean("includeOpenSourceAnalysis")
-        token.portalUri = json.string("portalUri")
+        token.auditPreferenceId = json.int("auditPreferenceId") ?: throw NullPointerException()
+        token.includeOpenSourceAnalysis = json.boolean("includeOpenSourceAnalysis") ?: throw NullPointerException()
+        token.portalUri = json.string("portalUri") ?: throw NullPointerException()
 
         return token
     }

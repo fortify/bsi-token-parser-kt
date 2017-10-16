@@ -7,7 +7,7 @@ class BsiToken {
     var payloadType: String? = null
     var assessmentTypeId: Int = 0
     var technologyStack: String? = null
-    var languageLevel = ""
+    var languageLevel: String? = ""
     var apiUri: String = "https://api.ams.fortify.com"
     var scanPreferenceId: Int = 0
     var scanPreference: String? = null
