@@ -4,6 +4,13 @@ import org.apache.http.client.utils.URLEncodedUtils
 import java.io.UnsupportedEncodingException
 import java.net.URI
 import java.net.URISyntaxException
+import com.beust.klaxon.valueToString
+import com.beust.klaxon.JsonObject
+import com.beust.klaxon.json
+import com.beust.klaxon.Parser
+import com.beust.klaxon.int
+import com.beust.klaxon.string
+import com.beust.klaxon.boolean
 
 class BsiTokenParser {
     @Throws(URISyntaxException::class, UnsupportedEncodingException::class)
@@ -15,7 +22,7 @@ class BsiTokenParser {
             val uri = URI(trimmedToken)
             return parseBsiUrl(uri)
         } else {
-            return parseBsiToken(trimmedToken)
+           return parseBsiToken(trimmedToken)
         }
     }
 
@@ -53,13 +60,35 @@ class BsiTokenParser {
 
     private fun parseBsiToken(codedToken: String): BsiToken {
 
-        var bsiBytes = java.util.Base64.getDecoder().decode(codedToken)
-        var decodedToken = String(bsiBytes,"UTF-8")
+        val bsiBytes = java.util.Base64.getDecoder().decode(codedToken)
+        val decodedToken = String(bsiBytes)
+
+        val parser = Parser()
+        val stringBuilder = StringBuilder(decodedToken)
+        val json = parser.parse(stringBuilder) as JsonObject
 
         var token = BsiToken()
-        token.tenantId
+
+        token.tenantId = json.int("tenantId")
+        token.tenantCode = json.string("tenantCode")
+        token.projectVersionId= json.int("releaseId")
+        token.payloadType = json.string("payloadType")
+        token.assessmentTypeId = json.int("assessmentTypeId")
+        token.technologyType = json.string("technologyType")
+        token.technologyTypeId = json.int("technologyTypeId")
+        token.technologyVersion = json.string("technologyVersion")
+        token.technologyVersionId = json.int("technologyVersionId")
+        //TODO: not in the bsi token
+        token.languageLevel = json.string("languageLevel")
+        token.apiUri = json.string("apiUri")
+        token.scanPreferenceId = json.int("scanPreferenceId")
+        token.scanPreference = json.string("scanPreference")
+        token.includeThirdParty = json.boolean("includeThirdParty")
+        token.auditPreference = json.string("auditPreference")
+        token.auditPreferenceId = json.int("auditPreferenceId")
+        token.includeOpenSourceAnalysis = json.boolean("includeOpenSourceAnalysis")
+        token.portalUri = json.string("portalUri")
 
         return token
-
     }
 }
