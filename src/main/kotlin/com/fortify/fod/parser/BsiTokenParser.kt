@@ -4,9 +4,7 @@ import org.apache.http.client.utils.URLEncodedUtils
 import java.io.UnsupportedEncodingException
 import java.net.URI
 import java.net.URISyntaxException
-import com.beust.klaxon.valueToString
 import com.beust.klaxon.JsonObject
-import com.beust.klaxon.json
 import com.beust.klaxon.Parser
 import com.beust.klaxon.int
 import com.beust.klaxon.string
@@ -18,11 +16,11 @@ class BsiTokenParser {
 
         val trimmedToken = token.trim()
 
-        if (trimmedToken.contains("/bsi2.aspx?")) {
+        return if (trimmedToken.contains("/bsi2.aspx?")) {
             val uri = URI(trimmedToken)
-            return parseBsiUrl(uri)
+            parseBsiUrl(uri)
         } else {
-           return parseBsiToken(trimmedToken)
+            parseBsiToken(trimmedToken)
         }
     }
 
@@ -47,9 +45,7 @@ class BsiTokenParser {
                 "payloadType" -> token.payloadType = param.value
                 "ap" -> token.auditPreference = param.value
 
-/*                if(token.technologyVersion != null){
-                    "ll" -> token.technologyVersion = param.value
-                }*/
+
 
 
             }
