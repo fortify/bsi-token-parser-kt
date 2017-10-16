@@ -4,6 +4,11 @@ import org.apache.http.client.utils.URLEncodedUtils
 import java.io.UnsupportedEncodingException
 import java.net.URI
 import java.net.URISyntaxException
+import com.beust.klaxon.JsonObject
+import com.beust.klaxon.Parser
+import com.beust.klaxon.int
+import com.beust.klaxon.string
+import com.beust.klaxon.boolean
 
 class BsiTokenParser {
     @Throws(URISyntaxException::class, UnsupportedEncodingException::class)
@@ -11,11 +16,11 @@ class BsiTokenParser {
 
         val trimmedToken = token.trim()
 
-        if (trimmedToken.contains("/bsi2.aspx?")) {
+        return if (trimmedToken.contains("/bsi2.aspx?")) {
             val uri = URI(trimmedToken)
-            return parseBsiUrl(uri)
+            parseBsiUrl(uri)
         } else {
-            throw Exception("Not implemented")
+            parseBsiToken(trimmedToken)
         }
     }
 
@@ -38,8 +43,48 @@ class BsiTokenParser {
                 "ll" -> token.languageLevel = param.value
                 "astid" -> token.assessmentTypeId = Integer.parseInt(param.value)
                 "payloadType" -> token.payloadType = param.value
+                "ap" -> token.auditPreference = param.value
+
+
+
+
             }
         }
+
+        return token
+    }
+
+    private fun parseBsiToken(codedToken: String): BsiToken {
+
+        val bsiBytes = java.util.Base64.getDecoder().decode(codedToken)
+        val decodedToken = String(bsiBytes)
+
+        val parser = Parser()
+        val stringBuilder = StringBuilder(decodedToken)
+        val json = parser.parse(stringBuilder) as JsonObject
+
+        var token = BsiToken()
+
+
+        token.tenantId = json.int("tenantId") ?: throw NullPointerException()
+        token.tenantCode = json.string("tenantCode")
+        token.projectVersionId = json.int("releaseId") ?: throw NullPointerException()
+        token.payloadType = json.string("payloadType") ?: throw NullPointerException()
+        token.assessmentTypeId = json.int("assessmentTypeId") ?: throw NullPointerException()
+        token.technologyType = json.string("technologyType") ?: throw NullPointerException()
+        token.technologyTypeId = json.int("technologyTypeId") ?: throw NullPointerException()
+        token.technologyVersion = json.string("technologyVersion")
+        token.technologyVersionId = json.int("technologyVersionId") ?: throw NullPointerException()
+        //TODO: not in the bsi token
+        token.languageLevel = json.string("languageLevel")
+        token.apiUri = json.string("apiUri") ?: throw NullPointerException()
+        token.scanPreferenceId = json.int("scanPreferenceId") ?: throw NullPointerException()
+        token.scanPreference = json.string("scanPreference")
+        token.includeThirdParty = json.boolean("includeThirdParty") ?: throw NullPointerException()
+        token.auditPreference = json.string("auditPreference")
+        token.auditPreferenceId = json.int("auditPreferenceId") ?: throw NullPointerException()
+        token.includeOpenSourceAnalysis = json.boolean("includeOpenSourceAnalysis") ?: throw NullPointerException()
+        token.portalUri = json.string("portalUri") ?: throw NullPointerException()
 
         return token
     }
