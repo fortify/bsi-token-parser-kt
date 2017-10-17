@@ -82,18 +82,18 @@ object BsiTokenParserSpec : Spek({
                 assertEquals("Tenant1", token.tenantCode)
             }
             it("should have a Project Version ID of '6'") {
-               assertEquals(6, token.projectVersionId)
+                assertEquals(6, token.projectVersionId)
             }
 
             it("should have a payloadType of 'ANALYSIS_PAYLOAD'") {
-               assertEquals("ANALYSIS_PAYLOAD", token.payloadType)
+                assertEquals("ANALYSIS_PAYLOAD", token.payloadType)
             }
 
             it("should have a portalUri of 'http://fod.localhost'") {
                 assertEquals("http://fod.localhost", token.portalUri)
             }
 
-           it("should have a apiUri of 'https://api.ams.fortify.com'") {
+            it("should have a apiUri of 'https://api.ams.fortify.com'") {
                 assertEquals("https://api.ams.fortify.com", token.apiUri)
             }
 
@@ -103,7 +103,7 @@ object BsiTokenParserSpec : Spek({
         on("parsing $bsiToken2") {
             val token = parser.parse(bsiToken2)
 
-            it("should have an Assessment Type Id of "){
+            it("should have an Assessment Type Id of ") {
                 assertEquals(8, token.assessmentTypeId)
             }
 
