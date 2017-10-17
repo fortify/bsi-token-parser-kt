@@ -114,6 +114,10 @@ object BsiTokenParserSpec : Spek({
                 assertEquals("_1_8", token.technologyVersion)
             }
 
+            it("should have includeOpenSourceAnalysis of 'false'") {
+                assertEquals(false, token.scanPreference)
+            }
+
             it("should have includeThirdParty be 'false'") {
                 assertEquals(false, token.includeThirdParty)
             }
@@ -121,6 +125,7 @@ object BsiTokenParserSpec : Spek({
             it("should have a Scan Preference of 'Standard'") {
                 assertEquals("Standard", token.scanPreference)
             }
+
         }
 
         val bsiToken3 = "eyJ0ZW5hbnRJZCI6MSwidGVuYW50Q29kZSI6IlRlbmFudDEiLCJyZWxlYXNlSWQiOjYsInBheWxvYWRUeXBlIjoiQU5BTFlTSVNfUEFZTE9BRCIsImFzc2Vzc21lbnRUeXBlSWQiOjgsInRlY2hub2xvZ3lUeXBlIjoiSkFWQV9KMkVFIiwidGVjaG5vbG9neVR5cGVJZCI6NywidGVjaG5vbG9neVZlcnNpb24iOiJfMV84IiwidGVjaG5vbG9neVZlcnNpb25JZCI6MTIsImF1ZGl0UHJlZmVyZW5jZSI6IiIsImF1ZGl0UHJlZmVyZW5jZUlkIjoxLCJpbmNsdWRlVGhpcmRQYXJ0eSI6ZmFsc2UsImluY2x1ZGVPcGVuU291cmNlQW5hbHlzaXMiOmZhbHNlLCJzY2FuUHJlZmVyZW5jZSI6IlN0YW5kYXJkIiwic2NhblByZWZlcmVuY2VJZCI6MSwicG9ydGFsVXJpIjoiIiwiYXBpVXJpIjoiIn0="
