@@ -140,6 +140,7 @@ object BsiTokenParserSpec : Spek({
                 assertEquals("https://api.ams.fortify.com", token.apiUri)
             }
         }
+
     }
 })
 
