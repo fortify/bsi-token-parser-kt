@@ -72,7 +72,6 @@ object BsiTokenParserSpec : Spek({
             }
         }
 
-
         val bsiToken1 = "eyJ0ZW5hbnRJZCI6MSwidGVuYW50Q29kZSI6IlRlbmFudDEiLCJyZWxlYXNlSWQiOjYsInBheWxvYWRUeXBlIjoiQU5BTFlTSVNfUEFZTE9BRCIsImFzc2Vzc21lbnRUeXBlSWQiOjgsInRlY2hub2xvZ3lUeXBlIjoiX05FVCIsInRlY2hub2xvZ3lUeXBlSWQiOjEsInRlY2hub2xvZ3lWZXJzaW9uIjoiXzRfMCIsInRlY2hub2xvZ3lWZXJzaW9uSWQiOjUsImF1ZGl0UHJlZmVyZW5jZSI6Ik1hbnVhbCIsImF1ZGl0UHJlZmVyZW5jZUlkIjoxLCJpbmNsdWRlVGhpcmRQYXJ0eSI6ZmFsc2UsImluY2x1ZGVPcGVuU291cmNlQW5hbHlzaXMiOmZhbHNlLCJzY2FuUHJlZmVyZW5jZSI6IlN0YW5kYXJkIiwic2NhblByZWZlcmVuY2VJZCI6MSwicG9ydGFsVXJpIjoiaHR0cDovL2ZvZC5sb2NhbGhvc3QiLCJhcGlVcmkiOiIifQ"
 
         on("parsing $bsiToken1") {
@@ -133,8 +132,8 @@ object BsiTokenParserSpec : Spek({
         on("parsing $bsiToken3") {
             val token = parser.parse(bsiToken3)
 
-            it("should have an Audit Preference of 'manual'") {
-                assertEquals("manual", token.auditPreference)
+            it("should have an Audit Preference of 'Manual'") {
+                assertEquals("Manual", token.auditPreference)
             }
 
             it("should have a portalUri of 'http://fod.localhost'") {

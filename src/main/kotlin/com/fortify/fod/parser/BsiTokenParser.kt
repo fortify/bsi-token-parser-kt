@@ -61,27 +61,29 @@ class BsiTokenParser {
 
         var token = BsiToken()
 
-        token.tenantId = json.int("tenantId") ?: throw NullPointerException()
-        token.tenantCode = json.string("tenantCode")
-        token.projectVersionId = json.int("releaseId") ?: throw NullPointerException()
-        token.payloadType = json.string("payloadType") ?: throw NullPointerException()
-        token.assessmentTypeId = json.int("assessmentTypeId") ?: throw NullPointerException()
-        token.technologyType = json.string("technologyType") ?: throw NullPointerException()
-        token.technologyTypeId = json.int("technologyTypeId") ?: throw NullPointerException()
+        token.tenantId = json.int("tenantId") ?: throw NullPointerException("Tenant Id can not be null.")
+        token.tenantCode = json.string("tenantCode") ?: throw NullPointerException("Tenant Code can not be null.")
+        token.projectVersionId = json.int("releaseId") ?: throw NullPointerException("Project Version Id can not be null.")
+        token.payloadType = json.string("payloadType") ?: throw NullPointerException("Payload Type can not be null.")
+        token.assessmentTypeId = json.int("assessmentTypeId") ?: throw NullPointerException("Assessment Type Id can not be null.")
+        token.technologyType = json.string("technologyType") ?: throw NullPointerException("Technology Type can not be null.")
+        token.technologyTypeId = json.int("technologyTypeId") ?: throw NullPointerException("Technology Type Id can not be null.")
         token.technologyVersion = json.string("technologyVersion")
-        token.technologyVersionId = json.int("technologyVersionId") ?: throw NullPointerException()
-        //Same as TechnologyVersion
-        token.languageLevel = json.string("technologyVersion")
-        token.scanPreferenceId = json.int("scanPreferenceId") ?: throw NullPointerException()
-        token.scanPreference = json.string("scanPreference")
-        token.includeThirdParty = json.boolean("includeThirdParty") ?: throw NullPointerException()
-        token.auditPreferenceId = json.int("auditPreferenceId") ?: throw NullPointerException()
-        token.includeOpenSourceAnalysis = json.boolean("includeOpenSourceAnalysis") ?: throw NullPointerException()
+        token.technologyVersionId = json.int("technologyVersionId")
+        token.scanPreferenceId = json.int("scanPreferenceId") ?: throw NullPointerException("Scan Preference Id can not be null")
+        token.scanPreference = json.string("scanPreference") ?: throw NullPointerException("Scan Preference can not be null")
+        token.includeThirdParty = json.boolean("includeThirdParty") ?: throw NullPointerException("Include Third Party Flag can not be null.")
+        token.includeOpenSourceAnalysis = json.boolean("includeOpenSourceAnalysis") ?: throw NullPointerException("Include Open Source Flag can not be null.")
+        token.auditPreferenceId = json.int("auditPreferenceId") ?: throw NullPointerException("Audit Preference Id can not be null.")
 
         token.auditPreference = if (json.string("auditPreference") == "") token.auditPreference else json.string("auditPreference")
-        token.apiUri = (if (json.string("apiUri") == "") token.apiUri else json.string("apiUri")) ?: throw NullPointerException()
-        token.portalUri = (if (json.string("portalUri") == "") token.portalUri else json.string("portalUri")) ?: throw NullPointerException()
+                ?: throw NullPointerException("Audit Preference can not be null.")
 
+        token.apiUri = if (json.string("apiUri") == "") token.apiUri else json.string("apiUri")
+                ?: throw NullPointerException("API URI can not be null")
+
+        token.portalUri = if (json.string("portalUri") == "") token.portalUri else json.string("portalUri")
+                ?: throw NullPointerException("Portal URI can not be null")
 
         return token
     }
