@@ -21,8 +21,6 @@ dependencies {
     testCompile "org.jetbrains.spek:spek-api:1.1.5"
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: '1.1.2'
     testCompile "org.jetbrains.spek:spek-junit-platform-engine:1.1.5"
-
-
 }
 
 buildscript {
@@ -117,4 +115,3 @@ task prepareMavenDeployables(type: GradleBuild) {
 }
 
 defaultTasks 'clean', 'build', 'test'
-
