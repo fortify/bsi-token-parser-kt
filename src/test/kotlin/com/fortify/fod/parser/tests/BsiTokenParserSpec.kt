@@ -115,7 +115,7 @@ object BsiTokenParserSpec : Spek({
             }
 
             it("should have includeOpenSourceAnalysis of 'false'") {
-                assertEquals(false, token.scanPreference)
+                assertEquals(false, token.includeOpenSourceAnalysis)
             }
 
             it("should have includeThirdParty be 'false'") {
