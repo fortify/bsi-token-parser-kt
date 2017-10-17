@@ -87,15 +87,59 @@ object BsiTokenParserSpec : Spek({
 
             it("should have a payloadType of 'ANALYSIS_PAYLOAD'") {
                assertEquals("ANALYSIS_PAYLOAD", token.payloadType)
-           }
+            }
 
-           it("should have a payloadType of 'portalUri'") {
+            it("should have a portalUri of 'http://fod.localhost'") {
                 assertEquals("http://fod.localhost", token.portalUri)
             }
-            
+
+           it("should have a apiUri of 'https://api.ams.fortify.com'") {
+                assertEquals("https://api.ams.fortify.com", token.apiUri)
+            }
+
+        }
+        val bsiToken2 = "eyJ0ZW5hbnRJZCI6MSwidGVuYW50Q29kZSI6IlRlbmFudDEiLCJyZWxlYXNlSWQiOjYsInBheWxvYWRUeXBlIjoiQU5BTFlTSVNfUEFZTE9BRCIsImFzc2Vzc21lbnRUeXBlSWQiOjgsInRlY2hub2xvZ3lUeXBlIjoiSkFWQV9KMkVFIiwidGVjaG5vbG9neVR5cGVJZCI6NywidGVjaG5vbG9neVZlcnNpb24iOiJfMV84IiwidGVjaG5vbG9neVZlcnNpb25JZCI6MTIsImF1ZGl0UHJlZmVyZW5jZSI6Ik1hbnVhbCIsImF1ZGl0UHJlZmVyZW5jZUlkIjoxLCJpbmNsdWRlVGhpcmRQYXJ0eSI6ZmFsc2UsImluY2x1ZGVPcGVuU291cmNlQW5hbHlzaXMiOmZhbHNlLCJzY2FuUHJlZmVyZW5jZSI6IlN0YW5kYXJkIiwic2NhblByZWZlcmVuY2VJZCI6MSwicG9ydGFsVXJpIjoiaHR0cDovL2ZvZC5sb2NhbGhvc3QiLCJhcGlVcmkiOiIifQ"
+
+        on("parsing $bsiToken2") {
+            val token = parser.parse(bsiToken2)
+
+            it("should have an Assessment Type Id of "){
+                assertEquals(8, token.assessmentTypeId)
+            }
+
+            it("should have a Technology Type of 'JAVA_J2EE'") {
+                assertEquals("JAVA_J2EE", token.technologyType)
+            }
+            it("should have a Technology Version of '_1_8'") {
+                assertEquals("_1_8", token.technologyVersion)
+            }
+
+            it("should have includeThirdParty be 'false'") {
+                assertEquals(false, token.includeThirdParty)
+            }
+
+            it("should have a Scan Preference of 'Standard'") {
+                assertEquals("Standard", token.scanPreference)
+            }
         }
 
+        val bsiToken3 = "eyJ0ZW5hbnRJZCI6MSwidGVuYW50Q29kZSI6IlRlbmFudDEiLCJyZWxlYXNlSWQiOjYsInBheWxvYWRUeXBlIjoiQU5BTFlTSVNfUEFZTE9BRCIsImFzc2Vzc21lbnRUeXBlSWQiOjgsInRlY2hub2xvZ3lUeXBlIjoiSkFWQV9KMkVFIiwidGVjaG5vbG9neVR5cGVJZCI6NywidGVjaG5vbG9neVZlcnNpb24iOiJfMV84IiwidGVjaG5vbG9neVZlcnNpb25JZCI6MTIsImF1ZGl0UHJlZmVyZW5jZSI6IiIsImF1ZGl0UHJlZmVyZW5jZUlkIjoxLCJpbmNsdWRlVGhpcmRQYXJ0eSI6ZmFsc2UsImluY2x1ZGVPcGVuU291cmNlQW5hbHlzaXMiOmZhbHNlLCJzY2FuUHJlZmVyZW5jZSI6IlN0YW5kYXJkIiwic2NhblByZWZlcmVuY2VJZCI6MSwicG9ydGFsVXJpIjoiIiwiYXBpVXJpIjoiIn0="
 
+        on("parsing $bsiToken3") {
+            val token = parser.parse(bsiToken3)
+
+            it("should have an Audit Preference of 'manual'") {
+                assertEquals("manual", token.auditPreference)
+            }
+
+            it("should have a portalUri of 'http://fod.localhost'") {
+                assertEquals("https://ams.fortify.com", token.portalUri)
+            }
+
+            it("should have a apiUri of 'https://api.ams.fortify.com'") {
+                assertEquals("https://api.ams.fortify.com", token.apiUri)
+            }
+        }
     }
 })
 
