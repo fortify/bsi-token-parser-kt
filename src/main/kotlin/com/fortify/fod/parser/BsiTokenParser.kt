@@ -44,10 +44,6 @@ class BsiTokenParser {
                 "astid" -> token.assessmentTypeId = Integer.parseInt(param.value)
                 "payloadType" -> token.payloadType = param.value
                 "ap" -> token.auditPreference = param.value
-
-
-
-
             }
         }
 
@@ -65,7 +61,6 @@ class BsiTokenParser {
 
         var token = BsiToken()
 
-
         token.tenantId = json.int("tenantId") ?: throw NullPointerException()
         token.tenantCode = json.string("tenantCode")
         token.projectVersionId = json.int("releaseId") ?: throw NullPointerException()
@@ -75,17 +70,20 @@ class BsiTokenParser {
         token.technologyTypeId = json.int("technologyTypeId") ?: throw NullPointerException()
         token.technologyVersion = json.string("technologyVersion")
         token.technologyVersionId = json.int("technologyVersionId") ?: throw NullPointerException()
-        //TODO: not in the bsi token
-        token.languageLevel = json.string("languageLevel")
-        token.apiUri = json.string("apiUri") ?: throw NullPointerException()
+        //Same as TechnologyVersion
+        token.languageLevel = json.string("technologyVersion")
         token.scanPreferenceId = json.int("scanPreferenceId") ?: throw NullPointerException()
         token.scanPreference = json.string("scanPreference")
         token.includeThirdParty = json.boolean("includeThirdParty") ?: throw NullPointerException()
-        token.auditPreference = json.string("auditPreference")
         token.auditPreferenceId = json.int("auditPreferenceId") ?: throw NullPointerException()
         token.includeOpenSourceAnalysis = json.boolean("includeOpenSourceAnalysis") ?: throw NullPointerException()
-        token.portalUri = json.string("portalUri") ?: throw NullPointerException()
+
+        token.auditPreference = if (json.string("auditPreference") == "") token.auditPreference else json.string("auditPreference")
+        token.apiUri = (if (json.string("apiUri") == "") token.apiUri else json.string("apiUri")) ?: throw NullPointerException()
+        token.portalUri = (if (json.string("portalUri") == "") token.portalUri else json.string("portalUri")) ?: throw NullPointerException()
+
 
         return token
     }
+
 }
