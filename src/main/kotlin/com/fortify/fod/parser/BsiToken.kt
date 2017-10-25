@@ -1,5 +1,8 @@
 package com.fortify.fod.parser
 
+/**
+ * A Build Server (Continuous) Integration Token for integrating with Fortify on Demand
+ */
 class BsiToken {
 
     var tenantId: Int = 0
@@ -27,12 +30,26 @@ class BsiToken {
     var technologyVersion: String? = null
     var technologyVersionId: Int? = null
 
-    // Legacy aliases
-    var technologyStack: String?
-        get() { return technologyType }
-        set(value) { this.technologyType = value }
 
+    /**
+     * Legacy alias for Technology Type
+     */
+    var technologyStack: String?
+        get() {
+            return technologyType
+        }
+        set(value) {
+            this.technologyType = value
+        }
+
+    /**
+     * Legacy alias for Technology Version
+     */
     var languageLevel: String?
-        get() { return technologyVersion }
-        set(value) { this.technologyVersion = value }
+        get() {
+            return technologyVersion
+        }
+        set(value) {
+            this.technologyVersion = value
+        }
 }
