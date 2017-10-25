@@ -62,7 +62,7 @@ class BsiTokenParser {
         val stringBuilder = StringBuilder(decodedToken)
         val json = parser.parse(stringBuilder) as JsonObject
 
-        var token = BsiToken()
+        val token = BsiToken()
 
         token.tenantId = json.int("tenantId") ?: throw NullPointerException("Tenant Id can not be null.")
         token.tenantCode = json.string("tenantCode") ?: throw NullPointerException("Tenant Code can not be null.")
