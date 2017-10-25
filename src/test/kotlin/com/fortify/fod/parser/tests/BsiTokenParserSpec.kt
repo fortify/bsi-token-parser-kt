@@ -56,7 +56,7 @@ object BsiTokenParserSpec : Spek({
                 assertEquals("1.8", token.languageLevel)
             }
 
-            it("should have API URI of 'https://api.ams.fortify.com'") {
+            it("should have an API URI of 'https://api.ams.fortify.com'") {
                 assertEquals("https://api.ams.fortify.com", token.apiUri)
             }
 
