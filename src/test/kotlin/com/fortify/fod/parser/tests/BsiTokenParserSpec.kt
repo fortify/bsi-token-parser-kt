@@ -161,4 +161,3 @@ object BsiTokenParserSpec : Spek({
 
     }
 })
-
