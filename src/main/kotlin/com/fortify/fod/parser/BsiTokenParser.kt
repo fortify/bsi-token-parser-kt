@@ -11,6 +11,7 @@ import com.beust.klaxon.string
 import com.beust.klaxon.boolean
 
 class BsiTokenParser {
+
     @Throws(URISyntaxException::class, UnsupportedEncodingException::class)
     fun parse(token: String): BsiToken {
 
