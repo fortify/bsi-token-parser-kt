@@ -32,6 +32,9 @@ class BsiTokenParser {
 
         if (uri.scheme != null && uri.host != null) {
             token.apiUri = "${uri.scheme}://${uri.host}"
+            if (uri.port > 0) {
+                token.apiUri = "${token.apiUri}:${uri.port}"
+            }
         }
 
         for (param in params) {
