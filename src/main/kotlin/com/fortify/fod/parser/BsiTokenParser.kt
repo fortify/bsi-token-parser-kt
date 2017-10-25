@@ -11,6 +11,7 @@ import com.beust.klaxon.string
 import com.beust.klaxon.boolean
 
 class BsiTokenParser {
+
     @Throws(URISyntaxException::class, UnsupportedEncodingException::class)
     fun parse(token: String): BsiToken {
 
@@ -32,6 +33,9 @@ class BsiTokenParser {
 
         if (uri.scheme != null && uri.host != null) {
             token.apiUri = "${uri.scheme}://${uri.host}"
+            if (uri.port > 0) {
+                token.apiUri = "${token.apiUri}:${uri.port}"
+            }
         }
 
         for (param in params) {
@@ -59,7 +63,7 @@ class BsiTokenParser {
         val stringBuilder = StringBuilder(decodedToken)
         val json = parser.parse(stringBuilder) as JsonObject
 
-        var token = BsiToken()
+        val token = BsiToken()
 
         token.tenantId = json.int("tenantId") ?: throw NullPointerException("Tenant Id can not be null.")
         token.tenantCode = json.string("tenantCode") ?: throw NullPointerException("Tenant Code can not be null.")

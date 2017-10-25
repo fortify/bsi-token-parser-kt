@@ -56,7 +56,7 @@ object BsiTokenParserSpec : Spek({
                 assertEquals("1.8", token.languageLevel)
             }
 
-            it("should have API URI of 'https://api.ams.fortify.com'") {
+            it("should have an API URI of 'https://api.ams.fortify.com'") {
                 assertEquals("https://api.ams.fortify.com", token.apiUri)
             }
 
@@ -69,6 +69,20 @@ object BsiTokenParserSpec : Spek({
 
             it("should have a Tech Stack of 'MBS/C/C++'") {
                 assertEquals("MBS/C/C++", token.technologyStack)
+            }
+        }
+
+        val bsiUrl4 = "http://127.0.0.1:8888/bsi2.aspx?tid=2222&tc=SourceControl&pv=7812&payloadType=ANALYSIS_PAYLOAD&astid=7&ts=PHP"
+
+        on("parsing $bsiUrl4") {
+            val token = parser.parse(bsiUrl4)
+
+            it("should have a Technology Type (Tech Stack) of 'PHP'") {
+                assertEquals("PHP", token.technologyType)
+            }
+
+            it("should have an API URI of 'http://127.0.0.1:8888'") {
+                assertEquals("http://127.0.0.1:8888", token.apiUri)
             }
         }
 
@@ -147,4 +161,3 @@ object BsiTokenParserSpec : Spek({
 
     }
 })
-
