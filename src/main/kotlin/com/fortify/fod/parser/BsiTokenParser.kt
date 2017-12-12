@@ -74,8 +74,13 @@ class BsiTokenParser {
         token.technologyTypeId = json.int("technologyTypeId") ?: throw NullPointerException("Technology Type Id can not be null.")
         token.technologyVersion = json.string("technologyVersion")
         token.technologyVersionId = json.int("technologyVersionId")
-        token.scanPreferenceId = json.int("scanPreferenceId") ?: throw NullPointerException("Scan Preference Id can not be null")
-        token.scanPreference = json.string("scanPreference") ?: throw NullPointerException("Scan Preference can not be null")
+
+        token.scanPreferenceId = if(json.int("scanPreferenceId") == 0) token.scanPreferenceId else json.int("scanPreferenceId")
+                ?: throw NullPointerException("Scan Preference Id can not be null")
+
+        token.scanPreference = if(json.string("scanPreference") == "0") token.scanPreference else json.string("scanPreference")
+                ?: throw NullPointerException("Scan Preference Id can not be null")
+
         token.includeThirdParty = json.boolean("includeThirdParty") ?: throw NullPointerException("Include Third Party Flag can not be null.")
         token.includeOpenSourceAnalysis = json.boolean("includeOpenSourceAnalysis") ?: throw NullPointerException("Include Open Source Flag can not be null.")
         token.auditPreferenceId = json.int("auditPreferenceId") ?: throw NullPointerException("Audit Preference Id can not be null.")
