@@ -157,6 +157,12 @@ object BsiTokenParserSpec : Spek({
             it("should have a apiUri of 'https://api.ams.fortify.com'") {
                 assertEquals("https://api.ams.fortify.com", token.apiUri)
             }
+
+            it("should have a Scan Preference of 'Standard'") {
+                assertEquals("Standard", token.scanPreference)
+            }
+
+
         }
 
         val bsiToken4 = "eyJ0ZW5hbnRJZCI6MSwidGVuYW50Q29kZSI6IlRlbmFudDEiLCJyZWxlYXNlSWQiOjMyMCwicGF5bG9hZFR5cGUiOiJBTkFMWVNJU19QQVlMT0FEIiwiYXNzZXNzbWVudFR5cGVJZCI6NSwidGVjaG5vbG9neVR5cGUiOiJKQVZBL0oyRUUiLCJ0ZWNobm9sb2d5VHlwZUlkIjo3LCJ0ZWNobm9sb2d5VmVyc2lvbiI6IjEuOSIsInRlY2hub2xvZ3lWZXJzaW9uSWQiOjE3LCJhdWRpdFByZWZlcmVuY2UiOiJNYW51YWwiLCJhdWRpdFByZWZlcmVuY2VJZCI6MSwiaW5jbHVkZVRoaXJkUGFydHkiOnRydWUsImluY2x1ZGVPcGVuU291cmNlQW5hbHlzaXMiOmZhbHNlLCJzY2FuUHJlZmVyZW5jZSI6IjAiLCJzY2FuUHJlZmVyZW5jZUlkIjowLCJwb3J0YWxVcmkiOiJodHRwOi8vZm9kLmxvY2FsaG9zdCIsImFwaVVyaSI6IiJ9"
@@ -178,6 +184,14 @@ object BsiTokenParserSpec : Spek({
 
             it("should have an Audit Preference of 'Manual'") {
                 assertEquals("Manual", token.auditPreference)
+            }
+
+            it("should have a Scan Preference of 'Standard'") {
+                assertEquals("Standard", token.scanPreference)
+            }
+
+            it("should have a Scan Preference Id of 1") {
+                assertEquals(1, token.scanPreferenceId)
             }
         }
     }
