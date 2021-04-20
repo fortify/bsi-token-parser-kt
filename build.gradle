@@ -2,16 +2,19 @@ plugins {
     id 'org.jetbrains.dokka' version '1.4.30'
     id 'org.jetbrains.kotlin.jvm' version '1.4.32'
     id 'maven-publish'
+    id 'signing'
+    id 'io.github.gradle-nexus.publish-plugin' version '1.0.0'
 }
 
 group 'com.fortify.fod'
 version '1.2.0'
+description 'Fortify BSI Token Parser library'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-	jcenter() // Currently required for dokkaJavadoc task, see for example https://github.com/detekt/detekt/issues/3461
+    jcenter() // Currently required for dokkaJavadoc task, see for example https://github.com/detekt/detekt/issues/3461
 }
 
 dependencies {
@@ -23,8 +26,8 @@ dependencies {
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: '1.4.32'
     testCompile "org.jetbrains.spek:spek-junit-platform-engine:1.1.5"
     testCompile "org.junit.jupiter:junit-jupiter-engine:5.3.2"
-	testCompile "org.jetbrains.kotlin:kotlin-reflect:1.4.32"
-	testRuntime ('org.jetbrains.spek:spek-junit-platform-engine:1.1.5') {
+    testCompile "org.jetbrains.kotlin:kotlin-reflect:1.4.32"
+    testRuntime ('org.jetbrains.spek:spek-junit-platform-engine:1.1.5') {
         exclude group: 'org.junit.platform'
         exclude group: 'org.jetbrains.kotlin'
     }
@@ -48,30 +51,6 @@ compileTestKotlin {
     }
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-            pom.withXml {
-                asNode().dependencies.'*'.findAll() {
-
-                    it.scope.text() == 'runtime' && project.configurations.compile.allDependencies.find { dep ->
-                        dep.name == it.artifactId.text()
-                    }
-                }.each() {
-                    it.scope*.value = 'compile'
-                }
-            }
-        }
-    }
-}
-
-model {
-    tasks.generatePomFileForMavenPublication {
-        destination = file("$buildDir/libs/BSITokenParser-${version}.pom")
-    }
-}
-
 def javadocDir = "$buildDir/libs/javadoc"
 
 task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
@@ -86,6 +65,78 @@ task deleteJavadocFolder(type: Delete) {
 task sourcesJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
+}
+
+artifacts {
+    archives(sourcesJar) {
+        type 'source'
+    }
+    archives(javadocJar) {
+        type 'javadoc'
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            pom {
+                groupId = project.group
+                artifactId = project.name
+                name = project.name
+                version = project.version
+                description = project.description
+                url = 'https://github.com/fortify/bsi-token-parser-kt'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'fortify'
+                        name = 'Fortify'
+                        email = 'fortify-oss@fortify.com'
+                        organization = 'Micro Focus Fortify'
+                        organizationUrl = 'https://www.microfocus.com/en-us/cyberres/application-security'
+                    }
+                }
+                scm {
+                    connection = "scm:git:https://github.com/fortify/bsi-token-parser-kt.git"
+                    developerConnection = "scm:git:https://github.com/fortify/bsi-token-parser-kt.git"
+                    url = "https://github.com/fortify/bsi-token-parser-kt"
+                }
+            }
+        }
+    }
+}
+
+// Sign using signingKey and signingPassword properties
+signing {
+	def signingKey = findProperty("signingKey")
+	def signingPassword = findProperty("signingPassword")
+	useInMemoryPgpKeys(signingKey, signingPassword)
+	required { gradle.taskGraph.hasTask("publishToOSSRH") }
+	sign publishing.publications.maven
+}
+
+// Publish using OSSRHUsername and OSSRHPassword properties
+nexusPublishing {
+	repositories {
+		OSSRH {
+			nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+			snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+		}
+	}
+}
+
+model {
+    tasks.generatePomFileForMavenPublication {
+        destination = file("$buildDir/libs/BSITokenParser-${version}.pom")
+    }
 }
 
 task prepareMavenDeployables(type: GradleBuild) {
