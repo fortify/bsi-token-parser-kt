@@ -1,6 +1,6 @@
 plugins {
     id 'org.jetbrains.dokka' version '1.4.30'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.32'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.31'
     id 'maven-publish'
     id 'signing'
     id 'io.github.gradle-nexus.publish-plugin' version '1.0.0'
@@ -12,30 +12,31 @@ description 'Fortify BSI Token Parser library'
 
 sourceCompatibility = 1.8
 
+ext {
+    kotlin_version = "1.4.31"
+    spek_version = "2.0.10"
+}
+
 repositories {
     mavenCentral()
     jcenter() // Currently required for dokkaJavadoc task, see for example https://github.com/detekt/detekt/issues/3461
 }
 
 dependencies {
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile 'com.beust:klaxon:5.5'
-
-    testCompile "org.jetbrains.spek:spek-api:1.1.5"
-    testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: '1.4.32'
-    testCompile "org.jetbrains.spek:spek-junit-platform-engine:1.1.5"
-    testCompile "org.junit.jupiter:junit-jupiter-engine:5.3.2"
-    testCompile "org.jetbrains.kotlin:kotlin-reflect:1.4.32"
-    testRuntime ('org.jetbrains.spek:spek-junit-platform-engine:1.1.5') {
-        exclude group: 'org.junit.platform'
-        exclude group: 'org.jetbrains.kotlin'
-    }
+    compile "org.apache.httpcomponents:httpclient:4.5.2"
+    compile "com.beust:klaxon:5.5"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    // assertion
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    //spek2
+    testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek_version"
+    testRuntimeOnly "org.spekframework.spek2:spek-runner-junit5:$spek_version"
+    testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 
 test {
     useJUnitPlatform {
-        includeEngines 'spek'
+        includeEngines 'spek2'
     }
 }
 

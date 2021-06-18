@@ -69,7 +69,7 @@ class BsiTokenParser {
         val bsiBytes = java.util.Base64.getDecoder().decode(codedToken)
         val decodedToken = String(bsiBytes)
 
-        val parser = Parser()
+        val parser = Parser.default()
         val stringBuilder = StringBuilder(decodedToken)
         val json = parser.parse(stringBuilder) as JsonObject
 
