@@ -19,9 +19,6 @@ import java.net.URI
 import java.net.URISyntaxException
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.Parser
-import com.beust.klaxon.int
-import com.beust.klaxon.string
-import com.beust.klaxon.boolean
 
 class BsiTokenParser {
 
@@ -72,7 +69,7 @@ class BsiTokenParser {
         val bsiBytes = java.util.Base64.getDecoder().decode(codedToken)
         val decodedToken = String(bsiBytes)
 
-        val parser = Parser()
+        val parser = Parser.default()
         val stringBuilder = StringBuilder(decodedToken)
         val json = parser.parse(stringBuilder) as JsonObject
 

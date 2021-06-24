@@ -1,39 +1,42 @@
-group 'com.fortify.fod'
-version '1.1.0'
+plugins {
+    id 'org.jetbrains.dokka' version '1.4.30'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.31'
+    id 'maven-publish'
+    id 'signing'
+    id 'io.github.gradle-nexus.publish-plugin' version '1.0.0'
+}
 
-apply plugin: 'kotlin'
-apply plugin: 'org.jetbrains.dokka'
-apply plugin: 'org.junit.platform.gradle.plugin'
+group 'com.fortify.fod'
+version '1.2.0'
+description 'Fortify BSI Token Parser library'
 
 sourceCompatibility = 1.8
 
+ext {
+    kotlin_version = "1.4.31"
+    spek_version = "2.0.10"
+}
+
 repositories {
     mavenCentral()
-    maven { url "http://dl.bintray.com/jetbrains/spek" }
-    jcenter()
+    jcenter() // Currently required for dokkaJavadoc task, see for example https://github.com/detekt/detekt/issues/3461
 }
 
 dependencies {
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-    compile 'com.beust:klaxon:0.30'
-
-    testCompile "org.jetbrains.spek:spek-api:1.1.5"
-    testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: '1.1.2'
-    testCompile "org.jetbrains.spek:spek-junit-platform-engine:1.1.5"
+    compile "org.apache.httpcomponents:httpclient:4.5.2"
+    compile "com.beust:klaxon:5.5"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    // assertion
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    //spek2
+    testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek_version"
+    testRuntimeOnly "org.spekframework.spek2:spek-runner-junit5:$spek_version"
+    testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 
-buildscript {
-    ext.kotlin_version = '1.2.0'
-    ext.dokka_version = '0.9.15'
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}"
-        classpath "org.junit.platform:junit-platform-gradle-plugin:1.0.0"
+test {
+    useJUnitPlatform {
+        includeEngines 'spek2'
     }
 }
 
@@ -49,46 +52,7 @@ compileTestKotlin {
     }
 }
 
-junitPlatform {
-    filters {
-        engines {
-            include 'spek'
-        }
-    }
-}
-
-apply plugin: 'maven-publish'
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-            pom.withXml {
-                asNode().dependencies.'*'.findAll() {
-
-                    it.scope.text() == 'runtime' && project.configurations.compile.allDependencies.find { dep ->
-                        dep.name == it.artifactId.text()
-                    }
-                }.each() {
-                    it.scope*.value = 'compile'
-                }
-            }
-        }
-    }
-}
-
-model {
-    tasks.generatePomFileForMavenPublication {
-        destination = file("$buildDir/libs/BSITokenParser-${version}.pom")
-    }
-}
-
 def javadocDir = "$buildDir/libs/javadoc"
-
-task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = 'javadoc'
-    outputDirectory = javadocDir
-}
 
 task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
     classifier = 'javadoc'
@@ -102,6 +66,78 @@ task deleteJavadocFolder(type: Delete) {
 task sourcesJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
+}
+
+artifacts {
+    archives(sourcesJar) {
+        type 'source'
+    }
+    archives(javadocJar) {
+        type 'javadoc'
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            pom {
+                groupId = project.group
+                artifactId = project.name
+                name = project.name
+                version = project.version
+                description = project.description
+                url = 'https://github.com/fortify/bsi-token-parser-kt'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'fortify'
+                        name = 'Fortify'
+                        email = 'fortify-oss@fortify.com'
+                        organization = 'Micro Focus Fortify'
+                        organizationUrl = 'https://www.microfocus.com/en-us/cyberres/application-security'
+                    }
+                }
+                scm {
+                    connection = "scm:git:https://github.com/fortify/bsi-token-parser-kt.git"
+                    developerConnection = "scm:git:https://github.com/fortify/bsi-token-parser-kt.git"
+                    url = "https://github.com/fortify/bsi-token-parser-kt"
+                }
+            }
+        }
+    }
+}
+
+// Sign using signingKey and signingPassword properties
+signing {
+	def signingKey = findProperty("signingKey")
+	def signingPassword = findProperty("signingPassword")
+	useInMemoryPgpKeys(signingKey, signingPassword)
+	required { gradle.taskGraph.hasTask("publishToOSSRH") }
+	sign publishing.publications.maven
+}
+
+// Publish using OSSRHUsername and OSSRHPassword properties
+nexusPublishing {
+	repositories {
+		OSSRH {
+			nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+			snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+		}
+	}
+}
+
+model {
+    tasks.generatePomFileForMavenPublication {
+        destination = file("$buildDir/libs/BSITokenParser-${version}.pom")
+    }
 }
 
 task prepareMavenDeployables(type: GradleBuild) {
