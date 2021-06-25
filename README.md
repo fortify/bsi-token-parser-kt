@@ -1,5 +1,5 @@
 # BSI Token Parser
 
-[ ![Download](https://api.bintray.com/packages/fortify/maven-public/bsi-token-parser/images/download.svg) ](https://bintray.com/fortify/maven-public/bsi-token-parser/_latestVersion)
+[ ![Download](https://fonts.gstatic.com/s/i/materialicons/download/v9/24px.svg) ](https://repo.maven.apache.org/maven2/com/fortify/fod/BSITokenParser/)
 
 Kotlin implementation of a parser for BSI Tokens from Fortify on Demand.
